@@ -1258,6 +1258,20 @@ export default function PlataformaPage() {
   const [adminEditorTab, setAdminEditorTab] = useState<AdminEditorTab>("info")
   const [editingCourseId, setEditingCourseId] = useState<string | null>(null)
   const [editingModuleId, setEditingModuleId] = useState<string | null>(null)
+  const [editingLessonId, setEditingLessonId] = useState<string | null>(null)
+  const [lessonFormData, setLessonFormData] = useState<{
+    title: string
+    type: "video" | "reading" | "practice"
+    duration: string
+    youtubeUrl: string
+    content: string
+  }>({
+    title: "",
+    type: "video",
+    duration: "",
+    youtubeUrl: "",
+    content: "",
+  })
   const [courses, setCourses] = useState<Course[]>(COURSES_DATA)
   const [newCourse, setNewCourse] = useState({ title: "", description: "" })
   const [uploadedFiles, setUploadedFiles] = useState<string[]>([])
