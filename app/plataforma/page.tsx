@@ -38,6 +38,13 @@ import {
   FileCheck,
   Eye,
   Sparkles,
+  Menu,
+  Bell,
+  MessageSquare,
+  Calendar,
+  Home,
+  FileSignature,
+  PlayCircle,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -46,7 +53,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 /* ============================================================
    TYPES
 ============================================================ */
-type ViewType = "login" | "dashboard" | "curso-detalle" | "leccion" | "simulador-5s" | "admin-panel"
+type ViewType = "login" | "dashboard" | "curso-detalle" | "leccion" | "simulador-5s" | "admin-panel" | "aula-virtual"
 type SimulatorTab = "seiri" | "seiton" | "seiso"
 type AdminTab = "cursos" | "alumnos" | "config"
 
@@ -1229,6 +1236,8 @@ export default function PlataformaPage() {
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null)
   const [selectedLessonId, setSelectedLessonId] = useState<string | null>(null)
   const [expandedModules, setExpandedModules] = useState<string[]>([])
+  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [rightSidebarOpen, setRightSidebarOpen] = useState(true)
 
   // ---- Login State ----
   const [email, setEmail] = useState("")
@@ -1314,7 +1323,7 @@ export default function PlataformaPage() {
 
   const handleOpenCourse = (courseId: string) => {
     setSelectedCourseId(courseId)
-    setCurrentView("curso-detalle")
+    setCurrentView("aula-virtual")
     // Expand first module
     const course = courses.find((c) => c.id === courseId)
     if (course && course.modules.length > 0) {
@@ -1502,6 +1511,332 @@ export default function PlataformaPage() {
             </Button>
           </div>
         </main>
+      </div>
+    )
+  }
+
+  /* ============================================================
+     RENDER: AULA VIRTUAL (Moodle-style LMS)
+  ============================================================ */
+  if (currentView === "aula-virtual" && selectedCourse) {
+    const totalLessons = selectedCourse.modules.reduce((acc, m) => acc + m.lessons.length, 0)
+    const completedLessons = selectedCourse.modules.reduce((acc, m) => acc + m.lessons.filter((l) => l.completed).length, 0)
+    const progressPercent = Math.round((completedLessons / totalLessons) * 100)
+
+    return (
+      <div className="flex min-h-screen flex-col bg-[#f5f5f5]">
+        {/* Top Navbar */}
+        <header className="sticky top-0 z-50 flex h-14 items-center justify-between border-b bg-[#0A1F3F] px-4 shadow-md">
+          {/* Left: Logo + Menu */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="flex h-9 w-9 items-center justify-center rounded-lg text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
+            <Image src="/images/ciic-logo-full.png" alt="CIIC Logo" width={100} height={40} className="h-8 w-auto object-contain" />
+          </div>
+
+          {/* Center: Breadcrumbs */}
+          <nav className="hidden items-center gap-2 text-sm text-white/70 md:flex">
+            <a href="#" className="hover:text-white" onClick={() => setCurrentView("dashboard")}>Mis Cursos</a>
+            <ChevronRight className="h-4 w-4" />
+            <span className="text-white/50">Capacitaciones</span>
+            <ChevronRight className="h-4 w-4" />
+            <span className="font-medium text-white">{selectedCourse.title}</span>
+          </nav>
+
+          {/* Right: Icons + User */}
+          <div className="flex items-center gap-2">
+            <button className="relative flex h-9 w-9 items-center justify-center rounded-lg text-white/70 transition-colors hover:bg-white/10 hover:text-white">
+              <Bell className="h-5 w-5" />
+              <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-[#E8651A]"></span>
+            </button>
+            <button className="flex h-9 w-9 items-center justify-center rounded-lg text-white/70 transition-colors hover:bg-white/10 hover:text-white">
+              <MessageSquare className="h-5 w-5" />
+            </button>
+            <div className="ml-2 flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#E8651A] text-sm font-medium text-white">
+                JP
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div className="flex flex-1">
+          {/* Left Sidebar - Course Navigation */}
+          <aside className={`${sidebarOpen ? "w-64" : "w-0"} shrink-0 overflow-hidden border-r bg-white transition-all duration-300 lg:block`}>
+            <div className="flex h-full w-64 flex-col">
+              {/* Course Quick Links */}
+              <div className="border-b p-4">
+                <nav className="space-y-1">
+                  <button className="flex w-full items-center gap-3 rounded-lg bg-[#E8651A]/10 px-3 py-2 text-sm font-medium text-[#E8651A]">
+                    <Home className="h-4 w-4" />
+                    Inicio del Curso
+                  </button>
+                  <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-600 hover:bg-gray-100">
+                    <Users className="h-4 w-4" />
+                    Participantes
+                  </button>
+                  <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-600 hover:bg-gray-100">
+                    <Award className="h-4 w-4" />
+                    Calificaciones
+                  </button>
+                </nav>
+              </div>
+
+              {/* Modules Index */}
+              <div className="flex-1 overflow-y-auto p-4">
+                <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Contenido del Curso</p>
+                <div className="space-y-1">
+                  {selectedCourse.modules.map((module, index) => {
+                    const isExpanded = expandedModules.includes(module.id)
+                    const moduleCompleted = module.lessons.filter((l) => l.completed).length
+                    const moduleTotal = module.lessons.length
+                    const isModuleComplete = moduleCompleted === moduleTotal
+
+                    return (
+                      <div key={module.id}>
+                        <button
+                          onClick={() => toggleModule(module.id)}
+                          className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm transition-colors ${
+                            isExpanded ? "bg-[#0A1F3F]/5 font-medium text-[#0A1F3F]" : "text-gray-600 hover:bg-gray-100"
+                          }`}
+                        >
+                          {isExpanded ? <ChevronDown className="h-4 w-4 shrink-0" /> : <ChevronRight className="h-4 w-4 shrink-0" />}
+                          <span className="flex-1 truncate">Módulo {index + 1}</span>
+                          {isModuleComplete && <CheckCircle2 className="h-4 w-4 shrink-0 text-green-500" />}
+                        </button>
+                        {isExpanded && (
+                          <div className="ml-6 mt-1 space-y-1 border-l-2 border-gray-200 pl-3">
+                            {module.lessons.map((lesson) => (
+                              <button
+                                key={lesson.id}
+                                onClick={() => handleOpenLesson(lesson)}
+                                className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-xs text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                              >
+                                {lesson.completed ? (
+                                  <CheckCircle2 className="h-3 w-3 shrink-0 text-green-500" />
+                                ) : (
+                                  <div className="h-3 w-3 shrink-0 rounded-full border border-gray-300" />
+                                )}
+                                <span className="truncate">{lesson.title.replace(/^(Video:|Lectura:|Práctica:)\s*/, "")}</span>
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          {/* Main Content */}
+          <main className="flex-1 overflow-y-auto">
+            <div className="mx-auto max-w-4xl p-6">
+              {/* Course Header Banner */}
+              <div className="mb-6 overflow-hidden rounded-xl bg-gradient-to-r from-[#0A1F3F] to-[#1A4A8F] p-6 text-white shadow-lg">
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                  <div>
+                    <h1 className="text-xl font-bold lg:text-2xl">{selectedCourse.title}</h1>
+                    <p className="mt-1 text-sm text-white/70">Nivel Intermedio</p>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="text-right">
+                      <p className="text-xs text-white/60">Tu progreso</p>
+                      <p className="text-2xl font-bold">{progressPercent}%</p>
+                    </div>
+                    <div className="h-12 w-12">
+                      <svg className="h-full w-full -rotate-90" viewBox="0 0 36 36">
+                        <circle cx="18" cy="18" r="15.5" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="3" />
+                        <circle
+                          cx="18"
+                          cy="18"
+                          r="15.5"
+                          fill="none"
+                          stroke="#E8651A"
+                          strokeWidth="3"
+                          strokeDasharray={`${progressPercent} 100`}
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Modules Accordion */}
+              <div className="space-y-4">
+                {selectedCourse.modules.map((module, moduleIndex) => {
+                  const isExpanded = expandedModules.includes(module.id)
+                  const moduleCompleted = module.lessons.filter((l) => l.completed).length
+                  const moduleTotal = module.lessons.length
+
+                  return (
+                    <div key={module.id} className="overflow-hidden rounded-xl border bg-white shadow-sm">
+                      <button
+                        onClick={() => toggleModule(module.id)}
+                        className="flex w-full items-center justify-between p-4 text-left transition-colors hover:bg-gray-50"
+                      >
+                        <div className="flex items-center gap-4">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#E8651A]/10 font-bold text-[#E8651A]">
+                            {moduleIndex + 1}
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-[#0A1F3F]">{module.title}</h3>
+                            <p className="mt-0.5 text-sm text-gray-500">{module.description}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className="hidden rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-600 sm:inline-flex">
+                            {moduleCompleted}/{moduleTotal} completadas
+                          </span>
+                          {isExpanded ? <ChevronDown className="h-5 w-5 text-gray-400" /> : <ChevronRight className="h-5 w-5 text-gray-400" />}
+                        </div>
+                      </button>
+
+                      {isExpanded && (
+                        <div className="border-t bg-gray-50/50 p-4">
+                          <div className="space-y-2">
+                            {module.lessons.map((lesson) => (
+                              <div
+                                key={lesson.id}
+                                onClick={() => handleOpenLesson(lesson)}
+                                className="flex cursor-pointer items-center justify-between rounded-lg bg-white p-3 shadow-sm transition-all hover:shadow-md"
+                              >
+                                <div className="flex items-center gap-3">
+                                  <div className={`flex h-9 w-9 items-center justify-center rounded-lg ${
+                                    lesson.completed ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-500"
+                                  }`}>
+                                    {lesson.type === "video" && <PlayCircle className="h-5 w-5" />}
+                                    {lesson.type === "reading" && <FileText className="h-5 w-5" />}
+                                    {lesson.type === "practice" && <FileSignature className="h-5 w-5" />}
+                                  </div>
+                                  <div>
+                                    <p className={`text-sm font-medium ${lesson.completed ? "text-gray-500" : "text-[#0A1F3F]"}`}>
+                                      {lesson.title}
+                                    </p>
+                                    <div className="mt-0.5 flex items-center gap-2 text-xs text-gray-400">
+                                      <Clock className="h-3 w-3" />
+                                      {lesson.duration}
+                                      {lesson.completed && (
+                                        <span className="flex items-center gap-1 text-green-600">
+                                          <CheckCircle2 className="h-3 w-3" />
+                                          Completado
+                                        </span>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                                <ChevronRight className="h-4 w-4 text-gray-400" />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </main>
+
+          {/* Right Sidebar - Info Blocks */}
+          <aside className={`${rightSidebarOpen ? "w-72" : "w-0"} hidden shrink-0 overflow-hidden border-l bg-white transition-all duration-300 xl:block`}>
+            <div className="flex h-full w-72 flex-col p-4">
+              {/* Announcements */}
+              <div className="mb-6">
+                <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-[#0A1F3F]">
+                  <Bell className="h-4 w-4 text-[#E8651A]" />
+                  Avisos Recientes
+                </h3>
+                <div className="space-y-2">
+                  <div className="rounded-lg border border-blue-100 bg-blue-50 p-3">
+                    <p className="text-xs font-medium text-blue-800">El instructor ha subido un nuevo material</p>
+                    <p className="mt-1 text-xs text-blue-600">Hace 2 horas</p>
+                  </div>
+                  <div className="rounded-lg border border-amber-100 bg-amber-50 p-3">
+                    <p className="text-xs font-medium text-amber-800">Recordatorio: Completa el Módulo 2</p>
+                    <p className="mt-1 text-xs text-amber-600">Hace 1 día</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Upcoming Events */}
+              <div className="mb-6">
+                <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-[#0A1F3F]">
+                  <Calendar className="h-4 w-4 text-[#E8651A]" />
+                  Eventos Próximos
+                </h3>
+                <div className="space-y-2">
+                  <div className="flex items-start gap-3 rounded-lg border p-3">
+                    <div className="flex h-10 w-10 flex-col items-center justify-center rounded-lg bg-[#E8651A]/10 text-[#E8651A]">
+                      <span className="text-xs font-bold">VIE</span>
+                      <span className="text-sm font-bold">15</span>
+                    </div>
+                    <div>
+                      <p className="text-xs font-medium text-[#0A1F3F]">Cierre de cuestionario</p>
+                      <p className="text-xs text-gray-500">23:59 hrs</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 rounded-lg border p-3">
+                    <div className="flex h-10 w-10 flex-col items-center justify-center rounded-lg bg-blue-100 text-blue-600">
+                      <span className="text-xs font-bold">LUN</span>
+                      <span className="text-sm font-bold">18</span>
+                    </div>
+                    <div>
+                      <p className="text-xs font-medium text-[#0A1F3F]">Sesión en vivo</p>
+                      <p className="text-xs text-gray-500">10:00 hrs</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mini Calendar */}
+              <div>
+                <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-[#0A1F3F]">
+                  <Calendar className="h-4 w-4 text-[#E8651A]" />
+                  Junio 2026
+                </h3>
+                <div className="rounded-lg border p-3">
+                  <div className="grid grid-cols-7 gap-1 text-center text-xs">
+                    {["D", "L", "M", "M", "J", "V", "S"].map((day) => (
+                      <div key={day} className="py-1 font-semibold text-gray-400">{day}</div>
+                    ))}
+                    {Array.from({ length: 30 }, (_, i) => i + 1).map((day) => (
+                      <div
+                        key={day}
+                        className={`rounded py-1 ${
+                          day === 2 ? "bg-[#E8651A] font-bold text-white" : 
+                          day === 15 ? "bg-amber-100 font-medium text-amber-700" :
+                          day === 18 ? "bg-blue-100 font-medium text-blue-700" :
+                          "text-gray-600 hover:bg-gray-100"
+                        }`}
+                      >
+                        {day}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Back to Dashboard */}
+              <div className="mt-auto pt-4">
+                <Button
+                  onClick={() => setCurrentView("dashboard")}
+                  variant="outline"
+                  className="w-full border-[#0A1F3F] text-[#0A1F3F] hover:bg-[#0A1F3F] hover:text-white"
+                >
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Volver al Dashboard
+                </Button>
+              </div>
+            </div>
+          </aside>
+        </div>
       </div>
     )
   }
