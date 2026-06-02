@@ -45,6 +45,14 @@ import {
   Home,
   FileSignature,
   PlayCircle,
+  Pencil,
+  GripVertical,
+  Save,
+  Globe,
+  DollarSign,
+  Link,
+  Info,
+  Layers,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -55,7 +63,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 ============================================================ */
 type ViewType = "login" | "dashboard" | "curso-detalle" | "leccion" | "simulador-5s" | "admin-panel" | "aula-virtual"
 type SimulatorTab = "seiri" | "seiton" | "seiso"
-type AdminTab = "cursos" | "alumnos" | "config"
+type AdminTab = "dashboard" | "cursos" | "alumnos" | "config"
+type AdminEditorTab = "info" | "temario" | "precio"
 
 interface Lesson {
   id: string
@@ -1245,7 +1254,10 @@ export default function PlataformaPage() {
   const [loginError, setLoginError] = useState("")
 
   // ---- Admin State ----
-  const [adminTab, setAdminTab] = useState<AdminTab>("cursos")
+  const [adminTab, setAdminTab] = useState<AdminTab>("dashboard")
+  const [adminEditorTab, setAdminEditorTab] = useState<AdminEditorTab>("info")
+  const [editingCourseId, setEditingCourseId] = useState<string | null>(null)
+  const [editingModuleId, setEditingModuleId] = useState<string | null>(null)
   const [courses, setCourses] = useState<Course[]>(COURSES_DATA)
   const [newCourse, setNewCourse] = useState({ title: "", description: "" })
   const [uploadedFiles, setUploadedFiles] = useState<string[]>([])
@@ -2007,205 +2019,452 @@ export default function PlataformaPage() {
   }
 
   /* ============================================================
-     RENDER: ADMIN PANEL
+     RENDER: ADMIN PANEL - Course Builder CMS
   ============================================================ */
   if (currentView === "admin-panel") {
+    const editingCourse = editingCourseId ? courses.find((c) => c.id === editingCourseId) : null
+
     return (
-      <div className="flex min-h-screen bg-gray-100">
-        {/* Sidebar */}
-        <aside className="fixed left-0 top-0 z-40 flex h-full w-64 flex-col border-r border-gray-200 bg-[#0A1F3F]">
+      <div className="flex min-h-screen bg-[#f8f9fa]">
+        {/* Admin Sidebar */}
+        <aside className="fixed left-0 top-0 z-40 flex h-full w-64 flex-col bg-[#0A1F3F]">
           <div className="flex h-16 items-center justify-center border-b border-white/10 px-4">
-            <Image src="/images/ciic-logo.png" alt="CIIC Logo" width={120} height={48} className="h-10 w-auto object-contain" />
+            <Image src="/images/ciic-logo-full.png" alt="CIIC Logo" width={140} height={56} className="h-10 w-auto object-contain" />
           </div>
           <nav className="flex-1 space-y-1 p-4">
             <button
-              onClick={() => setAdminTab("cursos")}
+              onClick={() => { setAdminTab("dashboard"); setEditingCourseId(null) }}
               className={`flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
-                adminTab === "cursos" ? "bg-[#E8651A] text-white" : "text-white/70 hover:bg-white/10 hover:text-white"
+                adminTab === "dashboard" ? "bg-white/10 text-white" : "text-white/60 hover:bg-white/5 hover:text-white"
+              }`}
+            >
+              <LayoutDashboard className="h-5 w-5" />
+              Dashboard
+            </button>
+            <button
+              onClick={() => { setAdminTab("cursos"); setEditingCourseId(null) }}
+              className={`flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
+                adminTab === "cursos" ? "bg-[#E8651A] text-white" : "text-white/60 hover:bg-white/5 hover:text-white"
               }`}
             >
               <BookOpen className="h-5 w-5" />
-              Catálogo de Cursos
+              Gestion de Cursos
             </button>
             <button
-              onClick={() => setAdminTab("alumnos")}
+              onClick={() => { setAdminTab("alumnos"); setEditingCourseId(null) }}
               className={`flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
-                adminTab === "alumnos" ? "bg-[#E8651A] text-white" : "text-white/70 hover:bg-white/10 hover:text-white"
+                adminTab === "alumnos" ? "bg-white/10 text-white" : "text-white/60 hover:bg-white/5 hover:text-white"
               }`}
             >
               <Users className="h-5 w-5" />
-              Alumnos
+              Usuarios / Agremiados
             </button>
             <button
-              onClick={() => setAdminTab("config")}
+              onClick={() => { setAdminTab("config"); setEditingCourseId(null) }}
               className={`flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
-                adminTab === "config" ? "bg-[#E8651A] text-white" : "text-white/70 hover:bg-white/10 hover:text-white"
+                adminTab === "config" ? "bg-white/10 text-white" : "text-white/60 hover:bg-white/5 hover:text-white"
               }`}
             >
               <Settings className="h-5 w-5" />
-              Configuración
+              Configuracion
             </button>
           </nav>
           <div className="border-t border-white/10 p-4">
-            <Button onClick={handleLogout} variant="ghost" className="w-full justify-start text-white/70 hover:bg-white/10 hover:text-white">
+            <Button onClick={handleLogout} variant="ghost" className="w-full justify-start text-white/60 hover:bg-white/5 hover:text-white">
               <LogOut className="mr-3 h-5 w-5" />
-              Cerrar Sesión
+              Cerrar Sesion
             </Button>
           </div>
         </aside>
 
-        {/* Main Content */}
-        <main className="ml-64 flex-1 p-8">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-[#0A1F3F]">Panel de Administración</h1>
-            <p className="mt-1 text-gray-600">Gestiona los cursos y contenido de la plataforma</p>
-          </div>
+        {/* Main Content Area */}
+        <main className="ml-64 flex-1">
+          {/* Course Editor View */}
+          {editingCourseId && editingCourse ? (
+            <div className="min-h-screen">
+              {/* Editor Header */}
+              <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-white px-6 shadow-sm">
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={() => setEditingCourseId(null)}
+                    className="flex items-center gap-2 text-sm text-gray-500 hover:text-[#0A1F3F]"
+                  >
+                    <ArrowLeft className="h-4 w-4" />
+                    Volver a todos los cursos
+                  </button>
+                </div>
+                <h1 className="text-lg font-semibold text-[#0A1F3F]">
+                  Editando: <span className="text-[#E8651A]">&quot;{editingCourse.title}&quot;</span>
+                </h1>
+                <div className="flex items-center gap-3">
+                  <Button variant="outline" className="border-gray-300 text-gray-600 hover:bg-gray-100">
+                    <Save className="mr-2 h-4 w-4" />
+                    Guardar Borrador
+                  </Button>
+                  <Button className="bg-green-600 text-white hover:bg-green-700">
+                    <Globe className="mr-2 h-4 w-4" />
+                    Publicar Curso
+                  </Button>
+                </div>
+              </header>
 
-          {adminTab === "cursos" && (
-            <div className="space-y-8">
-              {/* Add Course Form */}
-              <Card className="border-0 shadow-lg">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-xl">
-                    <PlusCircle className="h-6 w-6 text-[#E8651A]" />
-                    Agregar Nuevo Curso
-                  </CardTitle>
-                  <CardDescription>Completa la información para publicar un nuevo curso en el catálogo</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Título del Curso</label>
-                    <Input
-                      placeholder="Ej: Introducción a Lean Manufacturing"
-                      value={newCourse.title}
-                      onChange={(e) => setNewCourse({ ...newCourse, title: e.target.value })}
-                      className="h-12"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Descripción</label>
-                    <textarea
-                      placeholder="Describe el contenido y objetivos del curso..."
-                      value={newCourse.description}
-                      onChange={(e) => setNewCourse({ ...newCourse, description: e.target.value })}
-                      className="min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Archivos del Curso</label>
-                    <div
-                      className="flex min-h-[160px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 p-8 transition-colors hover:border-[#E8651A] hover:bg-orange-50"
-                      onClick={() => {
-                        const fileName = `archivo_${Date.now()}.pdf`
-                        setUploadedFiles([...uploadedFiles, fileName])
-                      }}
+              {/* Editor Tabs */}
+              <div className="border-b bg-white px-6">
+                <nav className="flex gap-1">
+                  {[
+                    { id: "info" as AdminEditorTab, label: "Informacion Basica", icon: Info },
+                    { id: "temario" as AdminEditorTab, label: "Constructor de Temario", icon: Layers },
+                    { id: "precio" as AdminEditorTab, label: "Ajustes de Precio", icon: DollarSign },
+                  ].map((tab) => (
+                    <button
+                      key={tab.id}
+                      onClick={() => setAdminEditorTab(tab.id)}
+                      className={`flex items-center gap-2 border-b-2 px-4 py-3 text-sm font-medium transition-colors ${
+                        adminEditorTab === tab.id
+                          ? "border-[#E8651A] text-[#E8651A]"
+                          : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                      }`}
                     >
-                      <Upload className="mb-3 h-10 w-10 text-gray-400" />
-                      <p className="text-sm font-medium text-gray-600">Arrastra archivos aquí o haz clic para subir</p>
-                      <p className="mt-1 text-xs text-gray-400">PDF, Videos, Imágenes (Max. 50MB)</p>
-                    </div>
-                    {uploadedFiles.length > 0 && (
-                      <div className="mt-3 space-y-2">
-                        {uploadedFiles.map((file, index) => (
-                          <div key={index} className="flex items-center gap-2 rounded-lg bg-gray-100 px-3 py-2 text-sm">
-                            <FileText className="h-4 w-4 text-[#E8651A]" />
-                            {file}
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                setUploadedFiles(uploadedFiles.filter((_, i) => i !== index))
-                              }}
-                              className="ml-auto text-gray-400 hover:text-red-500"
-                            >
-                              <X className="h-4 w-4" />
-                            </button>
+                      <tab.icon className="h-4 w-4" />
+                      {tab.label}
+                    </button>
+                  ))}
+                </nav>
+              </div>
+
+              {/* Tab Content */}
+              <div className="p-6">
+                {/* Informacion Basica Tab */}
+                {adminEditorTab === "info" && (
+                  <div className="mx-auto max-w-3xl space-y-6">
+                    <Card className="border-0 shadow-md">
+                      <CardContent className="space-y-6 p-6">
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-gray-700">Titulo del Curso</label>
+                          <Input
+                            value={editingCourse.title}
+                            className="h-12 text-lg"
+                            placeholder="Ej: Lean Manufacturing y Mejora Continua"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-gray-700">Subtitulo</label>
+                          <Input
+                            placeholder="Un resumen breve del curso (opcional)"
+                            className="h-11"
+                          />
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <label className="text-sm font-medium text-gray-700">Duracion Total</label>
+                            <Input
+                              value={editingCourse.duration}
+                              placeholder="Ej: 40 horas"
+                              className="h-11"
+                            />
                           </div>
-                        ))}
+                          <div className="space-y-2">
+                            <label className="text-sm font-medium text-gray-700">Nivel</label>
+                            <select className="h-11 w-full rounded-md border border-input bg-background px-3 text-sm">
+                              <option>Principiante</option>
+                              <option>Intermedio</option>
+                              <option>Avanzado</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-gray-700">Descripcion del Curso</label>
+                          <div className="rounded-lg border bg-white">
+                            <div className="flex items-center gap-1 border-b px-3 py-2">
+                              <button className="rounded p-1.5 hover:bg-gray-100"><strong>B</strong></button>
+                              <button className="rounded p-1.5 hover:bg-gray-100"><em>I</em></button>
+                              <button className="rounded p-1.5 hover:bg-gray-100"><u>U</u></button>
+                              <span className="mx-2 h-4 w-px bg-gray-300" />
+                              <button className="rounded p-1.5 hover:bg-gray-100">
+                                <Link className="h-4 w-4" />
+                              </button>
+                            </div>
+                            <textarea
+                              value={editingCourse.description}
+                              className="min-h-[150px] w-full resize-none border-0 p-3 text-sm focus:outline-none"
+                              placeholder="Describe los objetivos y contenido del curso..."
+                            />
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-gray-700">Imagen de Portada</label>
+                          <div className="flex min-h-[180px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 p-8 transition-all hover:border-[#E8651A] hover:bg-orange-50/50">
+                            <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-gray-100">
+                              <ImageIcon className="h-6 w-6 text-gray-400" />
+                            </div>
+                            <p className="text-sm font-medium text-gray-600">Arrastra una imagen aqui</p>
+                            <p className="mt-1 text-xs text-gray-400">o haz clic para seleccionar (PNG, JPG hasta 5MB)</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                )}
+
+                {/* Constructor de Temario Tab */}
+                {adminEditorTab === "temario" && (
+                  <div className="mx-auto max-w-4xl space-y-4">
+                    {/* Add Module Button */}
+                    <Button
+                      className="h-14 w-full border-2 border-dashed border-gray-300 bg-white text-gray-600 hover:border-[#E8651A] hover:bg-orange-50 hover:text-[#E8651A]"
+                      variant="ghost"
+                    >
+                      <PlusCircle className="mr-2 h-5 w-5" />
+                      Agregar Nuevo Modulo
+                    </Button>
+
+                    {/* Modules List */}
+                    <div className="space-y-3">
+                      {editingCourse.modules.map((module, moduleIndex) => {
+                        const isExpanded = expandedModules.includes(module.id) || editingModuleId === module.id
+
+                        return (
+                          <Card key={module.id} className="overflow-hidden border-0 shadow-md">
+                            {/* Module Header */}
+                            <div
+                              className="flex cursor-pointer items-center justify-between bg-white p-4 transition-colors hover:bg-gray-50"
+                              onClick={() => toggleModule(module.id)}
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className="cursor-grab text-gray-400 hover:text-gray-600">
+                                  <GripVertical className="h-5 w-5" />
+                                </div>
+                                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#0A1F3F] text-sm font-bold text-white">
+                                  {moduleIndex + 1}
+                                </div>
+                                <div>
+                                  <h3 className="font-semibold text-[#0A1F3F]">{module.title}</h3>
+                                  <p className="mt-0.5 text-xs text-gray-500">{module.lessons.length} lecciones</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <button className="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-[#0A1F3F]">
+                                  <Pencil className="h-4 w-4" />
+                                </button>
+                                <button className="rounded-lg p-2 text-gray-400 hover:bg-red-50 hover:text-red-500">
+                                  <Trash2 className="h-4 w-4" />
+                                </button>
+                                {isExpanded ? (
+                                  <ChevronDown className="h-5 w-5 text-gray-400" />
+                                ) : (
+                                  <ChevronRight className="h-5 w-5 text-gray-400" />
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Module Content - Lessons */}
+                            {isExpanded && (
+                              <div className="border-t bg-gray-50 p-4">
+                                {module.lessons.length === 0 ? (
+                                  <div className="flex flex-col items-center justify-center py-8 text-center">
+                                    <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-gray-200">
+                                      <FileText className="h-6 w-6 text-gray-400" />
+                                    </div>
+                                    <p className="text-sm text-gray-500">Aun no hay lecciones en este modulo.</p>
+                                    <p className="mt-1 text-xs text-gray-400">Haz clic en agregar para empezar.</p>
+                                  </div>
+                                ) : (
+                                  <div className="space-y-2">
+                                    {module.lessons.map((lesson, lessonIndex) => (
+                                      <div
+                                        key={lesson.id}
+                                        className="flex items-center justify-between rounded-lg bg-white p-3 shadow-sm"
+                                      >
+                                        <div className="flex items-center gap-3">
+                                          <div className="cursor-grab text-gray-300 hover:text-gray-500">
+                                            <GripVertical className="h-4 w-4" />
+                                          </div>
+                                          <span className="flex h-6 w-6 items-center justify-center rounded bg-gray-100 text-xs font-medium text-gray-500">
+                                            {lessonIndex + 1}
+                                          </span>
+                                          <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${
+                                            lesson.type === "video" ? "bg-red-100 text-red-600" :
+                                            lesson.type === "reading" ? "bg-blue-100 text-blue-600" :
+                                            "bg-green-100 text-green-600"
+                                          }`}>
+                                            {lesson.type === "video" && <Video className="h-4 w-4" />}
+                                            {lesson.type === "reading" && <FileText className="h-4 w-4" />}
+                                            {lesson.type === "practice" && <Monitor className="h-4 w-4" />}
+                                          </div>
+                                          <div>
+                                            <p className="text-sm font-medium text-[#0A1F3F]">{lesson.title}</p>
+                                            <p className="text-xs text-gray-400">{lesson.duration}</p>
+                                          </div>
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                          <button className="rounded p-1.5 text-gray-400 hover:bg-gray-100 hover:text-blue-600">
+                                            <Upload className="h-4 w-4" />
+                                          </button>
+                                          <button className="rounded p-1.5 text-gray-400 hover:bg-gray-100 hover:text-[#0A1F3F]">
+                                            <Pencil className="h-4 w-4" />
+                                          </button>
+                                          <button className="rounded p-1.5 text-gray-400 hover:bg-red-50 hover:text-red-500">
+                                            <Trash2 className="h-4 w-4" />
+                                          </button>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+
+                                {/* Add Lesson Button */}
+                                <button className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border-2 border-dashed border-gray-300 bg-white py-3 text-sm text-gray-500 transition-colors hover:border-[#E8651A] hover:text-[#E8651A]">
+                                  <PlusCircle className="h-4 w-4" />
+                                  Agregar Leccion
+                                </button>
+                              </div>
+                            )}
+                          </Card>
+                        )
+                      })}
+                    </div>
+
+                    {editingCourse.modules.length === 0 && (
+                      <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-white py-16 text-center">
+                        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
+                          <Layers className="h-8 w-8 text-gray-400" />
+                        </div>
+                        <h3 className="text-lg font-medium text-gray-700">Sin modulos aun</h3>
+                        <p className="mt-1 text-sm text-gray-500">Comienza agregando el primer modulo de tu curso</p>
                       </div>
                     )}
                   </div>
-                  <Button onClick={handlePublishCourse} className="h-12 w-full bg-[#E8651A] text-white hover:bg-[#E8651A]/90">
-                    <CheckCircle2 className="mr-2 h-5 w-5" />
-                    Publicar Curso
-                  </Button>
-                </CardContent>
-              </Card>
+                )}
 
-              {/* Courses Table */}
-              <Card className="border-0 shadow-lg">
-                <CardHeader>
-                  <CardTitle className="text-xl">Cursos Activos</CardTitle>
-                  <CardDescription>{courses.length} cursos publicados en el catálogo</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead>
-                        <tr className="border-b text-left">
-                          <th className="pb-3 text-sm font-semibold text-gray-600">Curso</th>
-                          <th className="pb-3 text-sm font-semibold text-gray-600">Módulos</th>
-                          <th className="pb-3 text-sm font-semibold text-gray-600">Duración</th>
-                          <th className="pb-3 text-sm font-semibold text-gray-600">Estado</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y">
-                        {courses.map((course) => (
-                          <tr key={course.id} className="hover:bg-gray-50">
-                            <td className="py-4">
-                              <p className="font-medium text-[#0A1F3F]">{course.title}</p>
-                              <p className="mt-1 text-sm text-gray-500 line-clamp-1">{course.description}</p>
-                            </td>
-                            <td className="py-4">
-                              <span className="text-sm text-gray-600">{course.modules.length} módulo(s)</span>
-                            </td>
-                            <td className="py-4">
-                              <span className="text-sm text-gray-600">{course.duration}</span>
-                            </td>
-                            <td className="py-4">
-                              <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-700">
-                                Publicado
-                              </span>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                {/* Ajustes de Precio Tab */}
+                {adminEditorTab === "precio" && (
+                  <div className="mx-auto max-w-2xl space-y-6">
+                    <Card className="border-0 shadow-md">
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-lg">
+                          <DollarSign className="h-5 w-5 text-[#E8651A]" />
+                          Configuracion de Precio
+                        </CardTitle>
+                        <CardDescription>Define el precio y opciones de pago para este curso</CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-6">
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-gray-700">Precio del Curso (MXN)</label>
+                          <div className="relative">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                            <Input
+                              type="number"
+                              placeholder="2000"
+                              className="h-12 pl-8 text-lg"
+                            />
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-gray-700">Precio con Descuento (Opcional)</label>
+                          <div className="relative">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                            <Input
+                              type="number"
+                              placeholder="1500"
+                              className="h-12 pl-8"
+                            />
+                          </div>
+                          <p className="text-xs text-gray-400">Deja vacio si no hay descuento activo</p>
+                        </div>
+                        <div className="flex items-center justify-between rounded-lg border bg-gray-50 p-4">
+                          <div>
+                            <p className="font-medium text-[#0A1F3F]">Descuento para Agremiados</p>
+                            <p className="text-sm text-gray-500">Miembros del CIIC obtienen precio especial</p>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Input
+                              type="number"
+                              placeholder="20"
+                              className="h-10 w-20 text-center"
+                            />
+                            <span className="text-sm text-gray-500">%</span>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
                   </div>
-                </CardContent>
-              </Card>
+                )}
+              </div>
             </div>
-          )}
-
-          {adminTab === "alumnos" && (
-            <Card className="border-0 shadow-lg">
-              <CardHeader>
-                <CardTitle className="text-xl">Gestión de Alumnos</CardTitle>
-                <CardDescription>Administra los usuarios de la plataforma</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-col items-center justify-center py-12 text-center">
-                  <Users className="mb-4 h-16 w-16 text-gray-300" />
-                  <p className="text-lg font-medium text-gray-600">Módulo en desarrollo</p>
-                  <p className="mt-2 text-sm text-gray-400">Próximamente podrás gestionar alumnos, ver progreso y generar reportes.</p>
+          ) : (
+            /* Courses List View */
+            <div className="p-8">
+              <div className="mb-8 flex items-center justify-between">
+                <div>
+                  <h1 className="text-2xl font-bold text-[#0A1F3F]">Gestion de Cursos</h1>
+                  <p className="mt-1 text-gray-500">Administra el catalogo de cursos de la plataforma</p>
                 </div>
-              </CardContent>
-            </Card>
-          )}
+                <Button className="bg-[#E8651A] text-white hover:bg-[#E8651A]/90">
+                  <PlusCircle className="mr-2 h-5 w-5" />
+                  Crear Nuevo Curso
+                </Button>
+              </div>
 
-          {adminTab === "config" && (
-            <Card className="border-0 shadow-lg">
-              <CardHeader>
-                <CardTitle className="text-xl">Configuración</CardTitle>
-                <CardDescription>Ajustes generales de la plataforma</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-col items-center justify-center py-12 text-center">
-                  <Settings className="mb-4 h-16 w-16 text-gray-300" />
-                  <p className="text-lg font-medium text-gray-600">Módulo en desarrollo</p>
-                  <p className="mt-2 text-sm text-gray-400">Próximamente podrás personalizar la plataforma y sus ajustes.</p>
-                </div>
-              </CardContent>
-            </Card>
+              {/* Courses Grid */}
+              <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+                {courses.map((course) => (
+                  <Card key={course.id} className="group overflow-hidden border-0 shadow-md transition-all hover:shadow-lg">
+                    <div className="relative h-40 bg-gradient-to-br from-[#0A1F3F] to-[#1A4A8F]">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <BookOpen className="h-16 w-16 text-white/20" />
+                      </div>
+                      <div className="absolute right-3 top-3">
+                        <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${
+                          course.status === "publicado" ? "bg-green-500 text-white" : "bg-yellow-500 text-white"
+                        }`}>
+                          {course.status === "publicado" ? "Publicado" : "Borrador"}
+                        </span>
+                      </div>
+                    </div>
+                    <CardContent className="p-4">
+                      <h3 className="font-semibold text-[#0A1F3F] line-clamp-1">{course.title}</h3>
+                      <p className="mt-1 text-sm text-gray-500 line-clamp-2">{course.description}</p>
+                      <div className="mt-3 flex items-center gap-3 text-xs text-gray-400">
+                        <span className="flex items-center gap-1">
+                          <Layers className="h-3.5 w-3.5" />
+                          {course.modules.length} modulos
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Clock className="h-3.5 w-3.5" />
+                          {course.duration}
+                        </span>
+                      </div>
+                      <div className="mt-4 flex gap-2">
+                        <Button
+                          onClick={() => { setEditingCourseId(course.id); setAdminEditorTab("info"); setExpandedModules([]) }}
+                          variant="outline"
+                          size="sm"
+                          className="flex-1 border-[#0A1F3F] text-[#0A1F3F] hover:bg-[#0A1F3F] hover:text-white"
+                        >
+                          <Pencil className="mr-1.5 h-4 w-4" />
+                          Editar
+                        </Button>
+                        <Button variant="outline" size="sm" className="text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                        <Button variant="outline" size="sm" className="text-red-500 hover:bg-red-50 hover:text-red-600">
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+
+                {/* Add Course Card */}
+                <Card className="flex min-h-[280px] cursor-pointer flex-col items-center justify-center border-2 border-dashed border-gray-300 bg-gray-50 transition-all hover:border-[#E8651A] hover:bg-orange-50/50">
+                  <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-gray-200">
+                    <PlusCircle className="h-7 w-7 text-gray-400" />
+                  </div>
+                  <p className="font-medium text-gray-600">Crear Nuevo Curso</p>
+                  <p className="mt-1 text-sm text-gray-400">Haz clic para empezar</p>
+                </Card>
+              </div>
+            </div>
           )}
         </main>
 
