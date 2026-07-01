@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
-import { Menu, X, Phone, GraduationCap } from "lucide-react"
+import { Menu, X, Phone, GraduationCap, Facebook, MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const navLinks = [
@@ -62,6 +62,27 @@ export function Navbar() {
 
         {/* CTA + Mobile Toggle */}
         <div className="flex items-center gap-3">
+          {/* Social Icons */}
+          <div className="hidden items-center gap-1.5 sm:flex">
+            <a
+              href="https://www.facebook.com/share/14fYCXfiZQg/?mibextid=wwXIfr"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Siguenos en Facebook"
+              className="flex h-9 w-9 items-center justify-center rounded-lg text-primary-foreground/80 transition-all hover:bg-[#1877F2] hover:text-white"
+            >
+              <Facebook className="h-5 w-5" />
+            </a>
+            <a
+              href="https://wa.me/524792235255"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Escribenos por WhatsApp"
+              className="flex h-9 w-9 items-center justify-center rounded-lg text-primary-foreground/80 transition-all hover:bg-[#25D366] hover:text-white"
+            >
+              <MessageCircle className="h-5 w-5" />
+            </a>
+          </div>
           <Button
             asChild
             size="sm"
@@ -131,6 +152,26 @@ export function Navbar() {
                   Solicitar Asesoria
                 </a>
               </Button>
+            </li>
+            <li className="mt-3 flex items-center justify-center gap-3 pt-3">
+              <a
+                href="https://www.facebook.com/share/14fYCXfiZQg/?mibextid=wwXIfr"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Siguenos en Facebook"
+                className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary-foreground/10 text-primary-foreground/80 transition-all hover:bg-[#1877F2] hover:text-white"
+              >
+                <Facebook className="h-5 w-5" />
+              </a>
+              <a
+                href="https://wa.me/524792235255"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Escribenos por WhatsApp"
+                className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary-foreground/10 text-primary-foreground/80 transition-all hover:bg-[#25D366] hover:text-white"
+              >
+                <MessageCircle className="h-5 w-5" />
+              </a>
             </li>
           </ul>
         </div>

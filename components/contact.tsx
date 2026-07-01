@@ -54,7 +54,7 @@ export function Contact() {
 
               <div className="flex flex-col gap-5">
                 <a
-                  href="tel:+524611234567"
+                  href="tel:+524792235255"
                   className="flex items-start gap-4 text-muted-foreground transition-colors hover:text-accent"
                 >
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
@@ -64,7 +64,7 @@ export function Contact() {
                     <p className="text-sm font-medium text-card-foreground">
                       Telefono
                     </p>
-                    <p className="text-sm">+52 (461) 123 4567</p>
+                    <p className="text-sm">+52 479 223 5255</p>
                   </div>
                 </a>
 
@@ -111,7 +111,7 @@ export function Contact() {
 
             {/* WhatsApp Button */}
             <a
-              href="https://wa.me/524611234567?text=Hola%2C%20me%20interesa%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20servicios."
+              href="https://wa.me/524792235255?text=Hola%2C%20me%20interesa%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20servicios."
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-3 rounded-xl bg-[#25D366] px-6 py-4 text-base font-semibold text-[#ffffff] transition-opacity hover:opacity-90"

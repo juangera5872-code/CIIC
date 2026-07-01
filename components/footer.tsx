@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin } from "lucide-react"
+import { Phone, Mail, MapPin, Facebook, MessageCircle } from "lucide-react"
 
 const serviceLinks = [
   "Calidad",
@@ -58,6 +58,28 @@ export function Footer() {
                 <MapPin className="h-4 w-4" />
                 Celaya, Guanajuato
               </span>
+            </div>
+
+            {/* Social / Contact Links */}
+            <div className="mt-6 flex items-center gap-3">
+              <a
+                href="https://www.facebook.com/share/14fYCXfiZQg/?mibextid=wwXIfr"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Siguenos en Facebook"
+                className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-foreground/10 text-primary-foreground/80 transition-all hover:-translate-y-0.5 hover:bg-[#1877F2] hover:text-white"
+              >
+                <Facebook className="h-5 w-5" />
+              </a>
+              <a
+                href="https://wa.me/524792235255"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Escribenos por WhatsApp"
+                className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-foreground/10 text-primary-foreground/80 transition-all hover:-translate-y-0.5 hover:bg-[#25D366] hover:text-white"
+              >
+                <MessageCircle className="h-5 w-5" />
+              </a>
             </div>
           </div>
 
