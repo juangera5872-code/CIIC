@@ -31,7 +31,7 @@ const BANK_INFO = {
   referencia: "CURSO-CIIC",
 }
 
-const WHATSAPP_NUMBER = "524611234567"
+const WHATSAPP_NUMBER = "524792235255"
 const WHATSAPP_MESSAGE = (courseName: string, userName: string) =>
   `Hola, soy ${userName}. Acabo de realizar el pago para el curso "${courseName}". Adjunto mi comprobante de pago.`
 
@@ -193,7 +193,7 @@ export function EnrollmentFlow({ course, isOpen, onClose }: EnrollmentFlowProps)
                 {/* Logo and Price Header */}
                 <div className="flex items-center justify-between border-b border-border bg-background px-5 py-3">
                   <Image
-                    src="/images/ciic-logo.png"
+                    src="/images/ciic-logo-emblema.png"
                     alt="CIIC Logo"
                     width={100}
                     height={40}

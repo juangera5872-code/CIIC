@@ -37,7 +37,7 @@ export function Navbar() {
         {/* Logo */}
         <a href="#inicio" className="flex items-center gap-2">
           <Image
-            src="/images/ciic-logo.png"
+            src="/images/ciic-logo-emblema.png"
             alt="CIIC - Colegio de Ingenieros Industriales Celaya"
             width={140}
             height={56}

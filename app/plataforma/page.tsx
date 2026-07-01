@@ -1410,7 +1410,7 @@ export default function PlataformaPage() {
         <Card className="w-full max-w-md border-0 shadow-2xl">
           <CardHeader className="space-y-4 text-center">
             <div className="mx-auto flex justify-center">
-              <Image src="/images/ciic-logo.png" alt="CIIC Logo" width={180} height={72} className="h-16 w-auto object-contain" />
+              <Image src="/images/ciic-logo-emblema.png" alt="CIIC Logo" width={180} height={72} className="h-16 w-auto object-contain" />
             </div>
             <div>
               <CardTitle className="text-2xl font-bold text-[#0A1F3F]">Plataforma de Aprendizaje</CardTitle>
@@ -1462,7 +1462,7 @@ export default function PlataformaPage() {
               <ArrowLeft className="mr-2 h-5 w-5" />
               Volver al curso
             </Button>
-            <Image src="/images/ciic-logo.png" alt="CIIC Logo" width={100} height={40} className="h-8 w-auto object-contain" />
+            <Image src="/images/ciic-logo-emblema.png" alt="CIIC Logo" width={100} height={40} className="h-8 w-auto object-contain" />
           </div>
         </header>
 
@@ -1561,7 +1561,7 @@ export default function PlataformaPage() {
             >
               <Menu className="h-5 w-5" />
             </button>
-            <Image src="/images/ciic-logo-full.png" alt="CIIC Logo" width={100} height={40} className="h-8 w-auto object-contain" />
+            <Image src="/images/ciic-logo-emblema.png" alt="CIIC Logo" width={100} height={40} className="h-8 w-auto object-contain" />
           </div>
 
           {/* Center: Breadcrumbs */}
@@ -1883,7 +1883,7 @@ export default function PlataformaPage() {
               <ArrowLeft className="mr-2 h-5 w-5" />
               Volver al Dashboard
             </Button>
-            <Image src="/images/ciic-logo.png" alt="CIIC Logo" width={100} height={40} className="h-8 w-auto object-contain" />
+            <Image src="/images/ciic-logo-emblema.png" alt="CIIC Logo" width={100} height={40} className="h-8 w-auto object-contain" />
           </div>
         </header>
 
@@ -2043,7 +2043,7 @@ export default function PlataformaPage() {
         {/* Admin Sidebar */}
         <aside className="fixed left-0 top-0 z-40 flex h-full w-64 flex-col bg-[#0A1F3F]">
           <div className="flex h-16 items-center justify-center border-b border-white/10 px-4">
-            <Image src="/images/ciic-logo-full.png" alt="CIIC Logo" width={140} height={56} className="h-10 w-auto object-contain" />
+            <Image src="/images/ciic-logo-emblema.png" alt="CIIC Logo" width={140} height={56} className="h-10 w-auto object-contain" />
           </div>
           <nav className="flex-1 space-y-1 p-4">
             <button
@@ -2504,7 +2504,7 @@ export default function PlataformaPage() {
         {/* Sidebar */}
         <aside className="fixed left-0 top-0 z-40 flex h-full w-64 flex-col border-r border-gray-200 bg-white">
           <div className="flex h-16 items-center justify-center border-b px-4">
-            <Image src="/images/ciic-logo.png" alt="CIIC Logo" width={120} height={48} className="h-10 w-auto object-contain" />
+            <Image src="/images/ciic-logo-emblema.png" alt="CIIC Logo" width={120} height={48} className="h-10 w-auto object-contain" />
           </div>
           <div className="border-b p-4">
             <div className="flex items-center gap-3">
@@ -2665,7 +2665,7 @@ export default function PlataformaPage() {
         {/* Simulator Sidebar */}
         <div className="w-56 border-r bg-[#0A1F3F] p-4">
           <div className="mb-6 flex items-center gap-2">
-            <Image src="/images/ciic-logo.png" alt="CIIC Logo" width={100} height={40} className="h-8 w-auto object-contain" />
+            <Image src="/images/ciic-logo-emblema.png" alt="CIIC Logo" width={100} height={40} className="h-8 w-auto object-contain" />
           </div>
           <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-white/50">Metodología 5S</p>
           <nav className="space-y-2">

@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Phone, Mail, MapPin, Facebook, MessageCircle } from "lucide-react"
 
 const serviceLinks = [
@@ -27,13 +28,15 @@ export function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div>
-            <div className="mb-4 flex items-center gap-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent">
-                <span className="text-lg font-bold text-accent-foreground">CI</span>
-              </div>
-              <div>
-                <span className="text-sm font-bold leading-tight">CIIC</span>
-              </div>
+            <div className="mb-4 flex items-center gap-3">
+              <Image
+                src="/images/ciic-logo-emblema.png"
+                alt="CIIC - Colegio de Ingenieros Industriales de Celaya"
+                width={56}
+                height={56}
+                className="h-12 w-12 object-contain"
+              />
+              <span className="text-sm font-bold leading-tight">CIIC</span>
             </div>
             <p className="mb-6 text-sm leading-relaxed text-primary-foreground/65">
               Colegio de Ingenieros Industriales Celaya. Servicios integrales de
