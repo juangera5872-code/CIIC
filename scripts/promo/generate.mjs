@@ -118,24 +118,21 @@ const check = (size = 22) =>
   `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${C.orange}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>`
 
 /**
- * Logotipo completo del CIIC sobre una tarjeta blanca.
- * El archivo original trae mucho aire vertical, asi que se recorta con
- * un contenedor y un desplazamiento negativo.
+ * Lockup de marca: el emblema del CIIC dentro de una tarjeta blanca (es como
+ * se usa el logotipo, sobre fondo claro) acompanado del nombre en Inter.
+ * `centrado` apila los elementos para las piezas verticales.
  */
-const LOGO_RATIO = 1024 / 1536 // alto / ancho del archivo original
-const CROP_TOP = 0.14
-const CROP_BOTTOM = 0.70
-
-const logoChip = (logo, width = 240) => {
-  const full = width * LOGO_RATIO
-  const boxH = full * (CROP_BOTTOM - CROP_TOP)
-  const padX = width * 0.07
-  const padY = width * 0.05
-  return `<div class="chip" style="border-radius:${(width * 0.07).toFixed(0)}px;padding:${padY.toFixed(0)}px ${padX.toFixed(0)}px">
-    <div style="width:${width}px;height:${boxH.toFixed(1)}px;overflow:hidden;position:relative">
-      <img src="${logo}" alt="${brand.nombreLargo}" style="position:absolute;top:${(-full * CROP_TOP).toFixed(1)}px;left:0;width:${width}px;display:block">
-    </div>
+const lockup = (emblema, { chip = 96, titulo = 30, nombre = 19, centrado = false } = {}) => {
+  const tarjeta = `<div class="chip" style="width:${chip}px;height:${chip}px;border-radius:${(chip * 0.26).toFixed(0)}px">
+    <img src="${emblema}" alt="${brand.nombre}" style="width:${(chip * 0.76).toFixed(0)}px;display:block">
   </div>`
+  const texto = `<div style="${centrado ? "text-align:center" : ""}">
+    <div style="font-size:${titulo}px;font-weight:900;letter-spacing:.14em;line-height:1">${brand.nombre}</div>
+    <div class="muted" style="font-size:${nombre}px;letter-spacing:.02em;margin-top:${(nombre * 0.42).toFixed(0)}px">${brand.nombreLargo}</div>
+  </div>`
+  return centrado
+    ? `<div style="display:flex;flex-direction:column;align-items:center;gap:${(chip * 0.18).toFixed(0)}px">${tarjeta}${texto}</div>`
+    : `<div style="display:flex;align-items:center;gap:${(chip * 0.22).toFixed(0)}px">${tarjeta}${texto}</div>`
 }
 
 const pill = (text) => `<span class="pill">${text}</span>`
@@ -174,8 +171,8 @@ body{
   background-size:26px 26px;pointer-events:none}
 .neural{position:absolute;inset:0;pointer-events:none}
 .content{position:relative;z-index:3;display:flex;flex-direction:column;height:100%;padding:${pad}px}
-.chip{background:#fff;border-radius:999px;display:flex;align-items:center;justify-content:center;
-  box-shadow:0 10px 30px rgba(0,0,0,.30);flex:none}
+.chip{background:#fff;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 12px 34px rgba(0,0,0,.32);flex:none}
 .eyebrow{font-weight:700;letter-spacing:.20em;text-transform:uppercase;color:${C.orangeLight}}
 .muted{color:rgba(255,255,255,.72)}
 .badge{display:inline-flex;align-items:center;gap:.5em;font-weight:900;letter-spacing:.06em;
@@ -222,7 +219,7 @@ function anuncio({ width, height, logo, tall }) {
     pad: 74 * s,
     body: `
     <div style="display:flex;align-items:center;gap:${px(20)}">
-      ${logoChip(logo, 250 * s)}
+      ${lockup(logo, { chip: 96 * s, titulo: 31 * s, nombre: 19 * s })}
       <span style="flex:1"></span>
       <span class="badge" style="font-size:${px(23)};padding:${px(13)} ${px(24)}">${campana.badge}</span>
     </div>
@@ -267,7 +264,7 @@ function tarjetaCurso({ curso, logo }) {
     <div style="position:absolute;right:${px(-30)};top:${px(120)};font-size:${px(320)};z-index:0" class="num">${curso.numero}</div>
 
     <div style="display:flex;align-items:center;gap:${px(20)};position:relative;z-index:2">
-      ${logoChip(logo, 224)}
+      ${lockup(logo, { chip: 86, titulo: 28, nombre: 18 })}
       <span style="flex:1"></span>
       <span class="badge" style="font-size:${px(21)};padding:${px(12)} ${px(22)}">${campana.badge}</span>
     </div>
@@ -312,7 +309,7 @@ function historia({ logo }) {
   const lista = cursos
     .map(
       (c) => `
-    <div class="card" style="padding:${px(30)} ${px(32)};display:flex;gap:${px(24)};align-items:center">
+    <div class="card" style="padding:${px(26)} ${px(32)};display:flex;gap:${px(24)};align-items:center">
       <span style="font-size:${px(44)};font-weight:900;color:${C.orangeLight};line-height:1">${c.numero}</span>
       <div style="flex:1">
         <div style="font-size:${px(34)};font-weight:700;line-height:1.2">${corto(c)}</div>
@@ -320,27 +317,27 @@ function historia({ logo }) {
       </div>
     </div>`,
     )
-    .join(`<div style="height:${px(22)}"></div>`)
+    .join(`<div style="height:${px(18)}"></div>`)
 
   return shell({
     width: 1080,
     height: 1920,
     pad: 90,
     body: `
-    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:${px(22)};margin-top:${px(105)}">
-      ${logoChip(logo, 380)}
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:${px(20)};margin-top:${px(80)}">
+      ${lockup(logo, { chip: 140, titulo: 38, nombre: 24, centrado: true })}
       <span class="badge" style="font-size:${px(30)};padding:${px(16)} ${px(32)};margin-top:${px(10)}">${campana.badge}</span>
     </div>
 
     <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
       <div class="eyebrow" style="font-size:${px(26)};text-align:center">${campana.eyebrow}</div>
-      <h1 style="font-size:${px(98)};font-weight:900;line-height:1.02;letter-spacing:-.02em;margin-top:${px(20)};text-align:center">
+      <h1 style="font-size:${px(86)};font-weight:900;line-height:1.02;letter-spacing:-.02em;margin-top:${px(20)};text-align:center">
         ${campana.titulo}<br><span class="accent">${campana.tituloAcento}</span>
       </h1>
       <p class="muted" style="font-size:${px(32)};line-height:1.45;margin-top:${px(28)};text-align:center">
         ${campana.subtitulo}
       </p>
-      <div style="height:${px(46)}"></div>
+      <div style="height:${px(34)}"></div>
       ${lista}
     </div>
 
@@ -379,9 +376,7 @@ function banner({ logo }) {
     body: `
     <div style="display:flex;gap:${px(48)};height:100%;align-items:stretch">
       <div style="flex:1.15;display:flex;flex-direction:column">
-        <div style="display:flex;align-items:center">
-          ${logoChip(logo, 190)}
-        </div>
+        ${lockup(logo, { chip: 66, titulo: 22, nombre: 15 })}
         <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
           <div class="eyebrow" style="font-size:${px(16)}">${campana.eyebrow}</div>
           <h1 style="font-size:${px(58)};font-weight:900;line-height:1.03;letter-spacing:-.02em;margin-top:${px(12)}">
@@ -410,7 +405,7 @@ function banner({ logo }) {
 async function main() {
   const [fontCss, logo] = await Promise.all([
     interCss(),
-    dataUri("public/images/ciic-logo-full.png"),
+    dataUri("public/images/ciic-emblema.png"),
   ])
   FONT_CSS = fontCss
 

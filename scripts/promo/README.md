@@ -48,10 +48,16 @@ el texto.
 
 ## Nota sobre los logotipos
 
-Se usa `public/images/ciic-logo-full.png` porque es el único archivo de marca
-legible sobre fondo oscuro (se coloca dentro de una tarjeta blanca).
+Se usa `public/images/ciic-emblema.png`: el emblema oficial con transparencia
+real, colocado dentro de una tarjeta blanca (que es como se usa la marca) y
+acompañado del nombre en Inter.
 
-`ciic-logo.png` y `ciic-logo-emblema.png` **traen el patrón de cuadros grises de
-transparencia rasterizado dentro del propio archivo** (son PNG sin canal alfa),
-por lo que no se pueden usar sobre fondos de color. Conviene reexportarlos con
-transparencia real.
+Cuidado con los otros archivos del repo:
+
+- `ciic-logo.png` y `ciic-logo-emblema.png` **traen el patrón de cuadros de
+  transparencia rasterizado dentro del propio archivo** (son PNG sin canal
+  alfa), así que muestran un damero sobre cualquier fondo de color. Hoy
+  `ciic-logo-emblema.png` se usa en el navbar y el footer del sitio, sobre el
+  fondo azul marino.
+- `ciic-logo-full.png` y `ciic-logo-emblema-original.png` son JPEG con extensión
+  `.png`; solo funcionan sobre blanco.
