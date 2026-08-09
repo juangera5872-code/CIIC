@@ -27,50 +27,58 @@ export const campana = {
   cta: "Inscríbete en ciic.mx",
 }
 
+/**
+ * `tituloCorto` se usa en los listados compactos y `titulo` en la tarjeta
+ * individual de cada curso. Deja `duracion` vacío mientras no esté definida:
+ * el generador omite los campos vacíos en lugar de dejar separadores sueltos.
+ */
 export const cursos = [
   {
     numero: "01",
-    titulo: "IA para la Productividad Profesional",
-    nivel: "Básico",
-    duracion: "6 horas",
+    titulo: "Inteligencia Artificial con Claude Code: De Cero a Automatizaciones",
+    tituloCorto: "IA con Claude Code",
+    nivel: "Desde cero",
+    duracion: "",
     modalidad: "En línea",
     resumen:
-      "Domina las herramientas de IA generativa para trabajar más rápido y con mejores resultados.",
+      "Aprende a usar Claude Code desde cero y automatiza las tareas repetitivas de tu trabajo.",
     temas: [
-      "Primeros pasos con ChatGPT y copilotos",
-      "Prompts efectivos para tareas reales",
-      "Redacción de reportes y correos",
-      "Uso responsable y seguridad de la información",
+      "Primeros pasos con Claude Code",
+      "Prompts que sí resuelven tareas reales",
+      "Automatización de reportes y archivos",
+      "Tu primera automatización de principio a fin",
     ],
   },
   {
     numero: "02",
-    titulo: "IA Aplicada a Procesos Industriales",
-    nivel: "Intermedio",
-    duracion: "8 horas",
+    titulo: "Marketing Digital con IA: Diseño de Marca, Contenido y Producto",
+    tituloCorto: "Marketing Digital con IA",
+    nivel: "Todos los niveles",
+    duracion: "",
     modalidad: "En línea",
     resumen:
-      "Lleva la inteligencia artificial al piso de planta: datos, calidad y mantenimiento.",
+      "Construye tu marca, tu contenido y tu producto con herramientas de inteligencia artificial.",
     temas: [
-      "Análisis de datos de producción",
-      "Mantenimiento predictivo con IA",
-      "Visión artificial para control de calidad",
-      "Casos de éxito en la industria del Bajío",
+      "Identidad de marca asistida por IA",
+      "Contenido para redes en minutos",
+      "Diseño de producto y propuesta de valor",
+      "Calendario y publicación con IA",
     ],
   },
   {
     numero: "03",
-    titulo: "IA para Pymes: Ventas y Atención al Cliente",
-    nivel: "Básico",
-    duracion: "5 horas",
+    titulo: "Crea tu Chatbot con IA y WhatsApp para tu Negocio (con Claude)",
+    tituloCorto: "Chatbot con IA y WhatsApp",
+    nivel: "Todos los niveles",
+    duracion: "",
     modalidad: "En línea",
     resumen:
-      "Aplica IA en tu negocio para vender más, atender mejor y ahorrar horas de trabajo.",
+      "Monta un chatbot que atienda a tus clientes por WhatsApp las 24 horas, sin programar de más.",
     temas: [
-      "Contenido y marketing con IA",
-      "Chatbots de atención a clientes",
-      "Cotizaciones y seguimiento automatizado",
-      "Herramientas gratuitas para empezar hoy",
+      "Cómo funciona un chatbot con IA",
+      "Conexión con WhatsApp paso a paso",
+      "Respuestas y catálogo de tu negocio",
+      "Pruebas, puesta en marcha y seguimiento",
     ],
   },
 ]

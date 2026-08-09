@@ -140,6 +140,12 @@ const logoChip = (logo, width = 240) => {
 
 const pill = (text) => `<span class="pill">${text}</span>`
 
+/** Une nivel/duracion/modalidad omitiendo los campos que esten vacios. */
+const meta = (c) => [c.nivel, c.duracion, c.modalidad].filter(Boolean).join(" · ")
+
+/** Titulo compacto para los listados; cae al titulo completo si no hay uno corto. */
+const corto = (c) => c.tituloCorto || c.titulo
+
 /* --------------------------------------------------------------- plantilla */
 
 /** Se llena en main() con las @font-face de Inter incrustadas en base64. */
@@ -202,8 +208,8 @@ function anuncio({ width, height, logo, tall }) {
     <div class="card" style="display:flex;align-items:center;gap:${px(22)};padding:${px(t(24, 17))} ${px(26)}">
       <span style="font-size:${px(30)};font-weight:900;color:${C.orangeLight};min-width:${px(52)}">${c.numero}</span>
       <div style="flex:1">
-        <div style="font-size:${px(29)};font-weight:700;line-height:1.2">${c.titulo}</div>
-        <div class="muted" style="font-size:${px(22)};margin-top:${px(6)}">${c.nivel} · ${c.duracion} · ${c.modalidad}</div>
+        <div style="font-size:${px(29)};font-weight:700;line-height:1.2">${corto(c)}</div>
+        <div class="muted" style="font-size:${px(22)};margin-top:${px(6)}">${meta(c)}</div>
       </div>
       <span class="badge" style="font-size:${px(19)};padding:${px(9)} ${px(18)}">GRATIS</span>
     </div>`,
@@ -249,8 +255,10 @@ function anuncio({ width, height, logo, tall }) {
 
 /** Tarjeta individual por curso, 1080x1080. */
 function tarjetaCurso({ curso, logo }) {
-  const s = 1
   const px = (v) => `${v}px`
+  // Los titulos de tres lineas necesitan menos cuerpo para no comerse el aire
+  // entre el logotipo y el encabezado.
+  const tituloSize = curso.titulo.length > 55 ? 58 : 66
   return shell({
     width: 1080,
     height: 1080,
@@ -266,13 +274,13 @@ function tarjetaCurso({ curso, logo }) {
 
     <div style="flex:1;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2">
       <div class="eyebrow" style="font-size:${px(22)}">Curso ${curso.numero} de 03 · Inteligencia Artificial</div>
-      <h1 style="font-size:${px(66)};font-weight:900;line-height:1.08;letter-spacing:-.02em;margin-top:${px(16)};max-width:${px(880)}">
+      <h1 style="font-size:${px(tituloSize)};font-weight:900;line-height:1.08;letter-spacing:-.02em;margin-top:${px(16)};max-width:${px(880)}">
         ${curso.titulo}
       </h1>
       <p class="muted" style="font-size:${px(27)};line-height:1.45;margin-top:${px(18)};max-width:${px(820)}">${curso.resumen}</p>
 
       <div style="display:flex;gap:${px(12)};margin-top:${px(26)}">
-        ${pill(curso.nivel)}${pill(curso.duracion)}${pill(curso.modalidad)}${pill("Constancia CIIC")}
+        ${[curso.nivel, curso.duracion, curso.modalidad, "Constancia CIIC"].filter(Boolean).map(pill).join("")}
       </div>
 
       <div class="card" style="margin-top:${px(34)};padding:${px(30)} ${px(34)}">
@@ -307,8 +315,8 @@ function historia({ logo }) {
     <div class="card" style="padding:${px(30)} ${px(32)};display:flex;gap:${px(24)};align-items:center">
       <span style="font-size:${px(44)};font-weight:900;color:${C.orangeLight};line-height:1">${c.numero}</span>
       <div style="flex:1">
-        <div style="font-size:${px(34)};font-weight:700;line-height:1.2">${c.titulo}</div>
-        <div class="muted" style="font-size:${px(25)};margin-top:${px(8)}">${c.nivel} · ${c.duracion} · ${c.modalidad}</div>
+        <div style="font-size:${px(34)};font-weight:700;line-height:1.2">${corto(c)}</div>
+        <div class="muted" style="font-size:${px(25)};margin-top:${px(8)}">${meta(c)}</div>
       </div>
     </div>`,
     )
@@ -356,8 +364,8 @@ function banner({ logo }) {
     <div class="card" style="padding:${px(16)} ${px(18)};display:flex;gap:${px(14)};align-items:center">
       <span style="font-size:${px(22)};font-weight:900;color:${C.orangeLight}">${c.numero}</span>
       <div>
-        <div style="font-size:${px(19)};font-weight:700;line-height:1.25">${c.titulo}</div>
-        <div class="muted" style="font-size:${px(15)};margin-top:${px(4)}">${c.nivel} · ${c.duracion}</div>
+        <div style="font-size:${px(19)};font-weight:700;line-height:1.25">${corto(c)}</div>
+        <div class="muted" style="font-size:${px(15)};margin-top:${px(4)}">${meta(c)}</div>
       </div>
     </div>`,
     )
