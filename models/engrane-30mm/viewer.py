@@ -15,71 +15,122 @@ import sys
 
 from gear import GearSpec, build_mesh
 
-TEMPLATE = """<title>Engrane 30 mm</title>
+TEMPLATE = """<title>Engrane Recto 30 mm</title>
 <style>
+  /* Paleta acero: neutros con sesgo azul frio + un solo acento (azul cian). */
   :root {
-    --fondo: #f1f5f9; --panel: #ffffff; --texto: #0f172a; --tenue: #475569;
-    --borde: #e2e8f0; --acento: #0284c7;
+    --papel: #eef1f4; --placa: #ffffff; --tinta: #16202c; --grafito: #5b6a7a;
+    --trazo: #d3dae1; --acento: #0b6f9c; --cota: #b8434a;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono", Menlo, monospace;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --fondo: #0b1220; --panel: #111c2e; --texto: #e2e8f0; --tenue: #94a3b8;
-      --borde: #1e2d45; --acento: #38bdf8;
+      --papel: #0d151d; --placa: #141f2b; --tinta: #e6edf3; --grafito: #93a3b4;
+      --trazo: #24333f; --acento: #4cb3e0; --cota: #e8878d;
     }
   }
   :root[data-theme="dark"] {
-    --fondo: #0b1220; --panel: #111c2e; --texto: #e2e8f0; --tenue: #94a3b8;
-    --borde: #1e2d45; --acento: #38bdf8;
+    --papel: #0d151d; --placa: #141f2b; --tinta: #e6edf3; --grafito: #93a3b4;
+    --trazo: #24333f; --acento: #4cb3e0; --cota: #e8878d;
   }
+
   body {
-    margin: 0; background: var(--fondo); color: var(--texto);
-    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    margin: 0; background: var(--papel); color: var(--tinta);
+    font-family: var(--sans); line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
   }
-  .envoltura { max-width: 1100px; margin: 0 auto; padding: 24px 20px 40px; }
-  h1 { font-size: clamp(1.3rem, 3vw, 1.8rem); margin: 0 0 4px; letter-spacing: -0.02em; }
-  .subtitulo { color: var(--tenue); margin: 0 0 20px; font-size: 0.95rem; }
+  .hoja {
+    max-width: 980px; margin: 0 auto; padding: 32px 20px 56px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+
+  .rotulo {
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--grafito);
+    display: flex; gap: 10px; align-items: center;
+  }
+  .rotulo::after { content: ""; flex: 1; height: 1px; background: var(--trazo); }
+  h1 {
+    font-size: clamp(1.6rem, 4vw, 2.3rem); line-height: 1.1; margin: 6px 0 0;
+    letter-spacing: -0.025em; text-wrap: balance; font-weight: 650;
+  }
+  h1 span { color: var(--acento); }
+  .entrada { color: var(--grafito); margin: 8px 0 0; max-width: 62ch; }
+
   .escena {
-    position: relative; background: var(--panel); border: 1px solid var(--borde);
-    border-radius: 14px; overflow: hidden;
+    position: relative; background: var(--placa); border: 1px solid var(--trazo);
+    border-radius: 4px; overflow: hidden;
   }
-  canvas { display: block; width: 100%; height: 60vh; min-height: 320px; touch-action: none; }
+  canvas { display: block; width: 100%; height: 58vh; min-height: 320px; touch-action: none; }
   .pista {
-    position: absolute; left: 12px; bottom: 10px; font-size: 0.78rem;
-    color: var(--tenue); pointer-events: none;
+    position: absolute; left: 14px; bottom: 12px; pointer-events: none;
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.04em;
+    color: var(--grafito);
   }
-  .controles { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; }
+
+  .mandos { display: flex; flex-wrap: wrap; gap: 8px; }
   button {
-    font: inherit; font-size: 0.85rem; padding: 7px 14px; border-radius: 999px;
-    border: 1px solid var(--borde); background: var(--panel); color: var(--texto);
-    cursor: pointer;
+    font: inherit; font-size: 0.85rem; padding: 8px 16px; border-radius: 3px;
+    border: 1px solid var(--trazo); background: var(--placa); color: var(--tinta);
+    cursor: pointer; transition: border-color 0.15s, color 0.15s;
   }
+  button:hover { border-color: var(--grafito); }
   button[aria-pressed="true"] { border-color: var(--acento); color: var(--acento); }
-  table { width: 100%; border-collapse: collapse; margin-top: 22px; font-size: 0.9rem; }
-  caption { text-align: left; font-weight: 600; padding-bottom: 8px; }
-  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--borde); }
-  th { color: var(--tenue); font-weight: 500; }
-  td { font-variant-numeric: tabular-nums; }
+  :focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+
+  h2 {
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--grafito); font-weight: 500;
+    margin: 14px 0 0;
+  }
+  .cuadro {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1px; background: var(--trazo); border: 1px solid var(--trazo);
+    border-radius: 4px; overflow: hidden;
+  }
+  .dato {
+    background: var(--placa); padding: 12px 14px;
+    display: flex; flex-direction: column; gap: 3px;
+  }
+  .dato dt { font-size: 0.75rem; color: var(--grafito); }
+  .dato dd {
+    margin: 0; font-family: var(--mono); font-size: 1.02rem;
+    font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
+  }
+  .dato.clave dd { color: var(--cota); }
+  .nota { color: var(--grafito); font-size: 0.85rem; margin: 0; max-width: 68ch; }
+
+  @media (prefers-reduced-motion: reduce) { button { transition: none; } }
 </style>
 
-<div class="envoltura">
-  <h1>Engrane recto Ø__DA__ mm</h1>
-  <p class="subtitulo">Modulo __M__ · __Z__ dientes · angulo de presion __ALPHA__° · perfil de evolvente</p>
+<div class="hoja">
+  <header>
+    <p class="rotulo">Modelo parametrico · malla cerrada</p>
+    <h1>Engrane recto <span>Ø__DA__ mm</span></h1>
+    <p class="entrada">
+      Perfil de evolvente con modulo __M__, __Z__ dientes y angulo de presion __ALPHA__°.
+      La geometria se genera por calculo, no se dibuja a mano.
+    </p>
+  </header>
 
   <div class="escena">
-    <canvas id="lienzo"></canvas>
+    <canvas id="lienzo" aria-label="Vista 3D del engrane, girable con el raton"></canvas>
     <span class="pista">Arrastra para girar · rueda para acercar</span>
   </div>
 
-  <div class="controles">
+  <div class="mandos">
     <button id="girar" aria-pressed="true">Rotacion automatica</button>
     <button id="malla" aria-pressed="false">Ver malla</button>
-    <button id="reiniciar" aria-pressed="false">Vista inicial</button>
+    <button id="reiniciar">Vista inicial</button>
   </div>
 
-  <table>
-    <caption>Datos de fabricacion</caption>
-    <tbody>__FILAS__</tbody>
-  </table>
+  <h2>Datos de fabricacion</h2>
+  <dl class="cuadro">__FILAS__</dl>
+  <p class="nota">
+    El diametro de 30 mm es el exterior: da = m·(z + 2). Al engranar con otra rueda
+    de la misma familia, la distancia entre centros es a = m·(z₁ + z₂)/2.
+  </p>
 </div>
 
 <script>
@@ -197,7 +248,16 @@ function perspectiva(fov, aspecto, cerca, lejos) {
 
 const inicio = { giroZ: 0.6, giroX: -1.05, zoom: 42 };
 let camara = { ...inicio };
-let automatico = true, verMalla = false;
+let verMalla = false;
+let automatico = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+document.getElementById("girar").setAttribute("aria-pressed", String(automatico));
+
+// El fondo del lienzo se toma del mismo token que el resto de la pagina.
+const raiz = getComputedStyle(document.documentElement);
+function tono(nombre) {
+  const hex = raiz.getPropertyValue(nombre).trim().replace("#", "");
+  return [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
+}
 
 const centrar = trasladar(0, 0, -__ESPESOR__ / 2);
 
@@ -210,7 +270,7 @@ function dibujar() {
   const oscuro = matchMedia("(prefers-color-scheme: dark)").matches
     && document.documentElement.dataset.theme !== "light"
     || document.documentElement.dataset.theme === "dark";
-  gl.clearColor(...(oscuro ? [0.067, 0.11, 0.18, 1] : [1, 1, 1, 1]));
+  gl.clearColor(...tono("--placa"), 1);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
   if (automatico) camara.giroZ += 0.006;
@@ -280,18 +340,20 @@ def html(spec: GearSpec) -> str:
         for vertex in tri:
             raw += struct.pack("<3f", *vertex)
 
+    # Las cotas marcadas como clave son las que definen el encargo.
     filas = [
-        ("Modulo (m)", f"{spec.module:g} mm"),
-        ("Numero de dientes (z)", f"{spec.teeth}"),
-        ("Angulo de presion (α)", f"{spec.pressure_angle:g}°"),
-        ("Diametro exterior (da)", f"{2 * spec.tip_radius:.2f} mm"),
-        ("Diametro primitivo (d)", f"{2 * spec.pitch_radius:.2f} mm"),
-        ("Diametro de raiz (df)", f"{2 * spec.root_radius:.2f} mm"),
-        ("Diametro base (db)", f"{2 * spec.base_radius:.2f} mm"),
-        ("Paso circular (p)", f"{3.141592653589793 * spec.module:.3f} mm"),
-        ("Ancho de cara (b)", f"{spec.width:g} mm"),
-        ("Barreno", f"Ø{spec.bore:g} mm"),
-        ("Triangulos de la malla", f"{len(triangles):,}".replace(",", " ")),
+        ("Diametro exterior (da)", f"{2 * spec.tip_radius:.2f} mm", True),
+        ("Diametro primitivo (d)", f"{2 * spec.pitch_radius:.2f} mm", True),
+        ("Modulo (m)", f"{spec.module:g} mm", False),
+        ("Numero de dientes (z)", f"{spec.teeth}", False),
+        ("Angulo de presion (α)", f"{spec.pressure_angle:g}°", False),
+        ("Diametro de raiz (df)", f"{2 * spec.root_radius:.2f} mm", False),
+        ("Diametro base (db)", f"{2 * spec.base_radius:.2f} mm", False),
+        ("Paso circular (p)", f"{3.141592653589793 * spec.module:.3f} mm", False),
+        ("Ancho de cara (b)", f"{spec.width:g} mm", False),
+        ("Barreno", f"Ø{spec.bore:g} mm", False),
+        ("Filete de raiz (ρ)", f"{spec.fillet_radius:.2f} mm", False),
+        ("Triangulos de la malla", f"{len(triangles):,}".replace(",", " "), False),
     ]
 
     return (
@@ -301,7 +363,13 @@ def html(spec: GearSpec) -> str:
         .replace("__Z__", str(spec.teeth))
         .replace("__ALPHA__", f"{spec.pressure_angle:g}")
         .replace("__ESPESOR__", f"{spec.width:g}")
-        .replace("__FILAS__", "".join(f"<tr><th>{k}</th><td>{v}</td></tr>" for k, v in filas))
+        .replace(
+            "__FILAS__",
+            "".join(
+                f'<div class="dato{" clave" if clave else ""}"><dt>{k}</dt><dd>{v}</dd></div>'
+                for k, v, clave in filas
+            ),
+        )
     )
 
 
