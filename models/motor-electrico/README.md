@@ -98,3 +98,30 @@ resultado es equivalente, y cualquier laminador une los sólidos al rebanar.
 - Las cotas siguen la práctica de un IEC 80 pero no reproducen ningún fabricante
   concreto; antes de fabricar hay que contrastarlas con la norma y con el diseño
   electromagnético.
+
+## Prestaciones y simulación
+
+`prestaciones.py` calcula la curva par-velocidad de la máquina (Kloss para arranque
+directo, envolvente par constante / potencia constante con variador) y simula el
+scooter que movería: velocidad punta por equilibrio tracción-resistencia, aceleración
+por integración, rampa máxima y consumo.
+
+```bash
+python3 prestaciones.py          # informe por consola
+python3 prestaciones.py --json   # datos y curvas en JSON
+python3 informe.py               # hoja de prestaciones con gráficas (prestaciones.html)
+```
+
+| Máquina | | Scooter (5.5:1, 133 kg) | |
+|---|---:|---|---:|
+| Par nominal | 5.12 N·m | Tracción máxima | 118 N |
+| Velocidad | 1400 min⁻¹ | Velocidad punta | 41 km/h |
+| Potencia | 0.75 kW | 0-25 km/h | 10.6 s |
+| Par de arranque | 11.8 N·m | Rampa continua | 8 % |
+| Par de vuelco | 14.8 N·m | Consumo a 30 km/h | 15.7 Wh/km |
+| Corriente | 1.76 A | Autonomía (960 Wh) | 61 km |
+
+El par de arranque, el de vuelco y el rendimiento son valores típicos de catálogo para
+un IE2 de este tamaño: **la geometría 3D fija las dimensiones, no el comportamiento
+electromagnético**. Para obtener el par real del modelo haría falta resolver el circuito
+magnético o un cálculo por elementos finitos.
