@@ -125,3 +125,37 @@ El par de arranque, el de vuelco y el rendimiento son valores típicos de catál
 un IE2 de este tamaño: **la geometría 3D fija las dimensiones, no el comportamiento
 electromagnético**. Para obtener el par real del modelo haría falta resolver el circuito
 magnético o un cálculo por elementos finitos.
+
+## Simulación 3D del scooter
+
+`simulador.html` mueve el scooter en tiempo real con la física de `prestaciones.py`:
+acelerador, pendiente, freno y sobrecarga, con las ruedas girando a la velocidad
+integrada y el piñón Ø30 girando 5.5 veces más rápido que la corona z=99.
+
+![Scooter en marcha](scooter-marcha.png)
+![Transmisión](scooter-transmision.png)
+
+```bash
+python3 scooter.py       # despiece de la escena (piezas, giros, dimensiones)
+python3 simulador.py     # genera simulador.html
+```
+
+| Archivo | Contenido |
+|---|---|
+| `scooter.py` | Geometría del vehículo (chasis, ruedas, transmisión, conductor) y del escenario |
+| `simulador.py` | Construye `simulador.html`: geometría + física + cuadro de mandos |
+
+La escena son 44 100 triángulos: el motor completo con sus 14 piezas y sus colores,
+más chasis, ruedas, corona, cadena, conductor y calzada. Las marcas viales y las
+balizas se desplazan en bucle con el periodo de su repetición, así que la carretera
+es infinita sin regenerar geometría.
+
+**La física del navegador y la de Python dan lo mismo**: integrando con paso fijo en
+el simulador salen 10.6 s de 0 a 25 km/h, 14.4 s a 30 km/h y 40.4 km/h de punta,
+frente a 10.6 / 14.4 / 40.5 en `prestaciones.py`. Los parámetros se incrustan desde
+las mismas dataclases, no se copian a mano.
+
+La reserva térmica es un modelo I²t sencillo: se consume con el cuadrado del par
+relativo al nominal (unos 30 s a 2.9×) y se recupera al bajar del nominal. Cuando se
+agota, la protección devuelve el par al valor continuo. No hay marcha atrás: en
+pendiente el scooter se queda parado en lugar de rodar hacia atrás.
