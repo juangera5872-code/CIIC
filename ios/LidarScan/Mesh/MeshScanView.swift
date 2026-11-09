@@ -44,8 +44,9 @@ struct MeshScanView: View {
                     .buttonStyle(.bordered)
 
                     Menu {
-                        Button("OBJ") { export(ext: "obj") }
-                        Button("USDZ") { export(ext: "usdz") }
+                        ForEach(MeshFormat.allCases.filter(\.isAvailable)) { f in
+                            Button(f.label) { export(ext: f.rawValue) }
+                        }
                     } label: {
                         Label("Exportar", systemImage: "square.and.arrow.down")
                     }

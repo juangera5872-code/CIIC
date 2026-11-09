@@ -4,6 +4,13 @@ import Foundation
 /// (visible desde la app Archivos gracias a UIFileSharingEnabled).
 @MainActor
 final class ModelStore: ObservableObject {
+    static let allowed: Set<String> = ["usdz", "usd", "obj", "ply", "stl", "abc", "glb", "xyz",
+                                       "dxf", "svg", "pdf", "json"]
+    /// Formatos que SceneKit puede abrir en el visor 3D integrado.
+    static let viewable: Set<String> = ["usdz", "usd", "obj", "ply", "stl", "abc"]
+
+    static func isViewable(_ url: URL) -> Bool { viewable.contains(url.pathExtension.lowercased()) }
+
     @Published private(set) var files: [URL] = []
 
     let directory: URL = {
@@ -27,7 +34,7 @@ final class ModelStore: ObservableObject {
             includingPropertiesForKeys: [.creationDateKey],
             options: [.skipsHiddenFiles])) ?? []
         files = urls
-            .filter { ["usdz", "obj", "usd"].contains($0.pathExtension.lowercased()) }
+            .filter { Self.allowed.contains($0.pathExtension.lowercased()) }
             .sorted { $0.lastPathComponent > $1.lastPathComponent }
     }
 
