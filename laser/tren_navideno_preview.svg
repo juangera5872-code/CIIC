@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="800" height="800">
+<rect width="1000.0" height="1000.0" fill="#f4ead5" stroke="#555" stroke-width="2"/>
+<polygon points="30.00,980.00 330.00,980.00 330.00,890.00 315.00,890.00 315.00,840.00 325.00,840.00 325.00,820.00 265.00,820.00 265.00,840.00 275.00,840.00 275.00,890.00 230.00,890.00 230.00,870.00 200.00,870.00 200.00,890.00 140.00,890.00 140.00,810.00 150.00,810.00 150.00,800.00 20.00,800.00 20.00,810.00 30.00,810.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<polygon points="55.00,890.00 115.00,890.00 115.00,830.00 55.00,830.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<circle cx="180.00" cy="930.00" r="14.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<circle cx="245.00" cy="930.00" r="14.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<circle cx="295.00" cy="930.00" r="14.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="175" y="890" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">locomotora</text>
+<polygon points="350.00,980.00 550.00,980.00 550.00,890.00 530.00,890.00 530.00,910.00 370.00,910.00 370.00,890.00 350.00,890.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="400.00" cy="945.00" r="15.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<circle cx="450.00" cy="945.00" r="15.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<circle cx="500.00" cy="945.00" r="15.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="450" y="935" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">vagon1</text>
+<polygon points="570.00,980.00 770.00,980.00 770.00,890.00 750.00,890.00 750.00,910.00 590.00,910.00 590.00,890.00 570.00,890.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="620.00" cy="945.00" r="15.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<circle cx="670.00" cy="945.00" r="15.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<circle cx="720.00" cy="945.00" r="15.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="670" y="935" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">vagon2</text>
+<polygon points="790.00,980.00 990.00,980.00 990.00,890.00 970.00,890.00 970.00,910.00 810.00,910.00 810.00,890.00 790.00,890.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="840.00" cy="945.00" r="15.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<circle cx="890.00" cy="945.00" r="15.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<circle cx="940.00" cy="945.00" r="15.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="890" y="935" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">vagon3</text>
+<polygon points="390.00,860.00 410.00,860.00 410.00,840.00 450.00,840.00 420.00,805.00 435.00,805.00 415.00,765.00 428.00,765.00 400.00,720.00 372.00,765.00 385.00,765.00 365.00,805.00 380.00,805.00 350.00,840.00 390.00,840.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="400.00" cy="798.00" r="5.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="400" y="790" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">arbol1</text>
+<polygon points="510.00,860.00 530.00,860.00 530.00,840.00 570.00,840.00 540.00,805.00 555.00,805.00 535.00,765.00 548.00,765.00 520.00,720.00 492.00,765.00 505.00,765.00 485.00,805.00 500.00,805.00 470.00,840.00 510.00,840.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="520.00" cy="798.00" r="5.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="520" y="790" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">arbol2</text>
+<polygon points="630.00,860.00 650.00,860.00 650.00,840.00 690.00,840.00 660.00,805.00 675.00,805.00 655.00,765.00 668.00,765.00 640.00,720.00 612.00,765.00 625.00,765.00 605.00,805.00 620.00,805.00 590.00,840.00 630.00,840.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="640.00" cy="798.00" r="5.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="640" y="790" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">arbol3</text>
+<polygon points="750.00,860.00 770.00,860.00 770.00,840.00 810.00,840.00 780.00,805.00 795.00,805.00 775.00,765.00 788.00,765.00 760.00,720.00 732.00,765.00 745.00,765.00 725.00,805.00 740.00,805.00 710.00,840.00 750.00,840.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="760.00" cy="798.00" r="5.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="760" y="790" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">arbol4</text>
+<polygon points="870.00,860.00 890.00,860.00 890.00,840.00 930.00,840.00 900.00,805.00 915.00,805.00 895.00,765.00 908.00,765.00 880.00,720.00 852.00,765.00 865.00,765.00 845.00,805.00 860.00,805.00 830.00,840.00 870.00,840.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="880.00" cy="798.00" r="5.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="880" y="790" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">arbol5</text>
+<circle cx="45.00" cy="655.00" r="25.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="45.00" cy="655.00" r="4.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="45" y="655" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">rueda1</text>
+<circle cx="115.00" cy="655.00" r="25.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="115.00" cy="655.00" r="4.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="115" y="655" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">rueda2</text>
+<circle cx="185.00" cy="655.00" r="25.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="185.00" cy="655.00" r="4.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="185" y="655" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">rueda3</text>
+<circle cx="255.00" cy="655.00" r="25.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="255.00" cy="655.00" r="4.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="255" y="655" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">rueda4</text>
+<circle cx="325.00" cy="655.00" r="25.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="325.00" cy="655.00" r="4.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="325" y="655" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">rueda5</text>
+<circle cx="395.00" cy="655.00" r="25.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="395.00" cy="655.00" r="4.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="395" y="655" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">rueda6</text>
+<circle cx="465.00" cy="655.00" r="25.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="465.00" cy="655.00" r="4.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="465" y="655" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">rueda7</text>
+<circle cx="535.00" cy="655.00" r="25.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="535.00" cy="655.00" r="4.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="535" y="655" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">rueda8</text>
+<circle cx="605.00" cy="655.00" r="25.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="605.00" cy="655.00" r="4.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="605" y="655" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">rueda9</text>
+<circle cx="675.00" cy="655.00" r="25.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="675.00" cy="655.00" r="4.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="675" y="655" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">rueda10</text>
+<circle cx="745.00" cy="655.00" r="25.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="745.00" cy="655.00" r="4.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="745" y="655" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">rueda11</text>
+<circle cx="815.00" cy="655.00" r="25.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="815.00" cy="655.00" r="4.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="815" y="655" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">rueda12</text>
+<circle cx="885.00" cy="655.00" r="25.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="885.00" cy="655.00" r="4.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="885" y="655" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">rueda13</text>
+<circle cx="955.00" cy="655.00" r="25.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="955.00" cy="655.00" r="4.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="955" y="655" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">rueda14</text>
+<polygon points="58.04,527.64 48.64,554.70 20.00,555.28 42.83,572.58 34.53,600.00 58.04,583.64 81.55,600.00 73.26,572.58 96.08,555.28 67.45,554.70" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="58.04" cy="567.64" r="4.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="58" y="564" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">estrella1</text>
+<polygon points="158.04,527.64 148.64,554.70 120.00,555.28 142.83,572.58 134.53,600.00 158.04,583.64 181.55,600.00 173.26,572.58 196.08,555.28 167.45,554.70" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="158.04" cy="567.64" r="4.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="158" y="564" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">estrella2</text>
+<polygon points="258.04,527.64 248.64,554.70 220.00,555.28 242.83,572.58 234.53,600.00 258.04,583.64 281.55,600.00 273.26,572.58 296.08,555.28 267.45,554.70" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="258.04" cy="567.64" r="4.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="258" y="564" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">estrella3</text>
+<polygon points="358.04,527.64 348.64,554.70 320.00,555.28 342.83,572.58 334.53,600.00 358.04,583.64 381.55,600.00 373.26,572.58 396.08,555.28 367.45,554.70" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="358.04" cy="567.64" r="4.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="358" y="564" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">estrella4</text>
+<circle cx="470.00" cy="580.00" r="20.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<text x="470" y="580" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">nube1</text>
+<circle cx="567.50" cy="572.50" r="27.50" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<text x="568" y="572" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">nube2</text>
+<circle cx="665.00" cy="565.00" r="35.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<text x="665" y="565" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">nube3</text>
+<polygon points="730.00,600.00 780.00,600.00 780.00,586.00 730.00,586.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="737.00" cy="593.00" r="3.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<circle cx="773.00" cy="593.00" r="3.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="755" y="593" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">acoplador1</text>
+<polygon points="795.00,600.00 845.00,600.00 845.00,586.00 795.00,586.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="802.00" cy="593.00" r="3.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<circle cx="838.00" cy="593.00" r="3.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="820" y="593" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">acoplador2</text>
+<polygon points="860.00,600.00 910.00,600.00 910.00,586.00 860.00,586.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="867.00" cy="593.00" r="3.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<circle cx="903.00" cy="593.00" r="3.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="885" y="593" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">acoplador3</text>
+<polygon points="925.00,600.00 975.00,600.00 975.00,586.00 925.00,586.00" fill="#c8a165" stroke="#000" stroke-width="1.5"/>
+<circle cx="932.00" cy="593.00" r="3.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<circle cx="968.00" cy="593.00" r="3.00" fill="#f4ead5" stroke="#d00" stroke-width="1.5"/>
+<text x="950" y="593" font-size="14" text-anchor="middle" fill="#222" font-family="sans-serif">acoplador4</text>
+</svg>
